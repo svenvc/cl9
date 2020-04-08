@@ -10,7 +10,7 @@
 
 (let ((ascii "Simple ASCII")
       (french (map 'string 'code-char '(233 108 232 118 101 32 101 110 32 70 114 97 110 231 97 105 115)))
-      (czech (with-output-to-string (out nil :element-type 'lw:simple-char)
+      (czech (with-output-to-string (out nil :element-type 'character)
                (loop :for c :in '(77 367 106 32 250 269 101 116)
                      :do (write-char (code-char c) out)))))
   (flet ((encode-decode (string)

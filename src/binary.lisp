@@ -180,7 +180,7 @@
 
 ;; A simple byte-array-input-stream implementation (LispWorks specific)
 
-(defclass byte-array-input-stream (#+lispworks stream:fundamental-binary-input-stream #+sbcl fundamental-binary-input-stream)
+(defclass byte-array-input-stream (#+lispworks stream:fundamental-binary-input-stream #+sbcl sb-gray:fundamental-binary-input-stream)
   ((byte-array :reader get-byte-array :initarg :byte-array :initform #())
    (position :reader get-position :initarg :start :initform 0)
    (end :initarg :end :initform nil)))
@@ -188,7 +188,7 @@
 (defun make-byte-array-input-stream (byte-array &key (start 0) end)
   (make-instance 'byte-array-input-stream :byte-array byte-array :start start :end end))
 
-(defmethod #+lispworks stream:stream-read-byte #+sbcl stream-read-byte ((byte-array-input-stream byte-array-input-stream))
+(defmethod #+lispworks stream:stream-read-byte #+sbcl sb-gray:stream-read-byte ((byte-array-input-stream byte-array-input-stream))
   (with-slots (byte-array position end)
       byte-array-input-stream
     (if (< position (or end (length byte-array)))
@@ -208,7 +208,7 @@
 
 ;; A simple byte-array-output-stream implementation (LispWorks specific)
 
-(defclass byte-array-output-stream (#+lispworks stream:fundamental-binary-output-stream #+sbcl fundamental-binary-input-stream)
+(defclass byte-array-output-stream (#+lispworks stream:fundamental-binary-output-stream #+sbcl sb-gray:fundamental-binary-output-stream)
   ((byte-array :reader get-byte-array 
                :initarg :byte-array 
                :initform (make-array 64
@@ -223,7 +223,7 @@
       (make-instance 'byte-array-output-stream :byte-array byte-array :start start :end end)
     (make-instance 'byte-array-output-stream)))
 
-(defmethod #+lispworks stream:stream-write-byte #+sbcl stream-write-byte ((byte-array-output-stream byte-array-output-stream) byte)
+(defmethod #+lispworks stream:stream-write-byte #+sbcl sb-gray:stream-write-byte ((byte-array-output-stream byte-array-output-stream) byte)
   (with-slots (byte-array position end)
       byte-array-output-stream
     (if position
